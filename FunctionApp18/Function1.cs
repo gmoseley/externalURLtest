@@ -24,11 +24,14 @@ namespace FunctionApp18
 
 
             HttpClient client = new HttpClient();
-            string url = "https://google.com";//Environment.GetEnvironmentVariable("exteranlURL");
+            string url = Environment.GetEnvironmentVariable("exteranlURL");
+            log.LogInformation("External URL is : " + url);
             var response = await client.GetAsync(url);
             log.LogInformation(response.StatusCode.ToString());
 
-
+            if (!response.IsSuccessStatusCode){
+                throw new Exception();
+            }
 
 
             string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
